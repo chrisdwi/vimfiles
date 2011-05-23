@@ -89,6 +89,7 @@ nnoremap <Space> @q
 ""omni completion 
 """"""""""""""""""""""""""""""""""""""""""""""
 set ofu=syntaxcomplete#Complete
+set cot=menu
 imap <silent> ` <C-X><C-O>
 
 if has("cscope")
@@ -247,9 +248,9 @@ if has("win32")
 	"set guioptions-=b
 
 	" Folding
-	let g:xml_syntax_folding=1
-	set foldmethod=syntax
-	set foldlevel=100 " Don't autofold anything (but I can still fold manually)
+"    let g:xml_syntax_folding=1
+"    set foldmethod=syntax
+"    set foldlevel=100 " Don't autofold anything (but I can still fold manually)
 	colorscheme elflord
 
 endif
