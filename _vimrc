@@ -72,7 +72,8 @@ nmap  <silent> <F7>    :cp<CR>
 nmap  <silent> <F8>    :cn<CR>
 nmap <F12> :Tlist<CR>
 nmap <F6> :make<CR>
-nmap <f3> :execute "vimgrep /" . expand("<cword>") . "/j **/*"<Left>
+nmap <f3> :execute "vimgrep /\\<" . expand("<cword>") . "\\>\\C/ **/*"<Left>
+nmap <C-\>e :e **/<C-R>=expand("<cword>")<CR>.v
 nnoremap <F4>a :DoxAuthor<CR>
 nnoremap <F4>b :DoxBlock<CR>
 let bug=''
@@ -84,9 +85,10 @@ nnoremap <F4>v A /**< ChrisLee <C-R>=strftime("%x")<CR>, #<C-R>=bug<CR> */<left>
 nnoremap <Space> @q
 "nmap cf :let @" = expand("%")<CR>
 "nmap cp :let @" = expand("%:p")<CR>
+inoremap \fn <C-R>=expand("%:p:h")<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""
-""omni completion 
+""omni completion
 """"""""""""""""""""""""""""""""""""""""""""""
 set ofu=syntaxcomplete#Complete
 set cot=menu
@@ -112,7 +114,7 @@ if has("cscope")
 	nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
 	nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
 	nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>
-	nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>
+"    nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>
 	nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
 	nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
 	nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
@@ -129,7 +131,7 @@ if has("cscope")
 	nmap <C-\>G :scs find g <C-R>=expand("<cword>")<CR><CR>
 	nmap <C-\>C :scs find c <C-R>=expand("<cword>")<CR><CR>
 	nmap <C-\>T :scs find t <C-R>=expand("<cword>")<CR><CR>
-	nmap <C-\>E :scs find e <C-R>=expand("<cword>")<CR><CR>
+"    nmap <C-\>E :scs find e <C-R>=expand("<cword>")<CR><CR>
 	nmap <C-\>F :scs find f <C-R>=expand("<cfile>")<CR><CR>
 	nmap <C-\>I :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
 	nmap <C-\>D :scs find d <C-R>=expand("<cword>")<CR><CR>
@@ -141,7 +143,7 @@ if has("cscope")
 	nmap <C-/><C-/>g :vert scs find g <C-R>=expand("<cword>")<CR><CR>
 	nmap <C-/><C-/>c :vert scs find c <C-R>=expand("<cword>")<CR><CR>
 	nmap <C-/><C-/>t :vert scs find t <C-R>=expand("<cword>")<CR><CR>
-	nmap <C-/><C-/>e :vert scs find e <C-R>=expand("<cword>")<CR><CR>
+"    nmap <C-/><C-/>e :vert scs find e <C-R>=expand("<cword>")<CR><CR>
 	nmap <C-/><C-/>i :vert scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
 	nmap <C-/><C-/>d :vert scs find d <C-R>=expand("<cword>")<CR><CR>
 
@@ -149,12 +151,13 @@ endif
 
 if has("autocmd")
 
+	au BufNewFile,BufRead *.lpf set filetype=ps1
 	autocmd BufEnter *.v set errorformat=\*\*\ %tRROR:\ %f(%l):\ %m,\*\*\ %tRROR:\ %m,\*\*\ %tARNING:\ %m,\*\*\ %tOTE:\ %m,%tRROR:\ %f(%l):\ %m,%tARNING\[%*[0-9]\]:\ %f(%l):\ %m,%tRROR:\ %m,%tARNING\[%*[0-9]\]:\ %m
 	autocmd BufEnter *.c set efm =\"%f\"\\,\ line\ %l\ (col.\ %c):\ %m
 
 "    autocmd BufWritePre *.c :RetabIndent!
 "    autocmd BufWritePre *.h :RetabIndent!
-"    autocmd BufEnter * :%s/[ \t\r]\+$//e
+	autocmd BufWritePre * :%s/[ \t\r]\+$//e
 "    autocmd BufEnter *.ahk :let &titlestring = "VIM[" . expand("%:p") . "]"
 
 	" vim -b : edit binary using xxd-format!
@@ -231,8 +234,8 @@ endif
 if has("win32")
     source $VIMRUNTIME/delmenu.vim
     source $VIMRUNTIME/menu.vim
-    set guifont=YaHei\ Consolas\ Hybrid:h12 "Courier_New:h10
-    set guifontwide=YaHei\ Consolas\ Hybrid:h12
+	set guifont=YaHei\ Consolas\ Hybrid:h12 "Courier_New:h10
+	set guifontwide=YaHei\ Consolas\ Hybrid:h12
     set lines=40
     set columns=100
 "    set number
